@@ -1,0 +1,79 @@
+/**
+Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+Input: head = [1,2,3,4,5], left = 2, right = 4
+Output: [1,4,3,2,5]
+
+Example 2:
+Input: head = [5], left = 1, right = 1
+Output: [5]
+ 
+Constraints:
+The number of nodes in the list is n.
+1 <= n <= 500
+-500 <= Node.val <= 500
+1 <= left <= right <= n
+*/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} left
+ * @param {number} right
+ * @return {ListNode}
+ */
+
+var reverseBetween = function(head, left, right) {
+    // get node of index-1, while fetching track previous node as well
+    // store prev node in a separate variable as startnode and headnode
+    // store nextnode as currnode.next
+    // index = right-left
+    // loop unitl index > 0
+    // move prevnode to currnode and currnode to nextnode and nextnode to nextnode.next
+    // then link currnode to prevnode and index-=1
+    // store prevnode as currnode and store currnode as nextnode
+    // link startnode to prevnode and headnode to currndoe
+    
+    if(left === right) return head;
+    if(!head) return head;
+
+    let index = left-1;
+    let prevNode = null;
+    let currNode = head;
+
+    while(index > 0) {
+        prevNode = currNode;
+        currNode = currNode.next;
+        index-=1;
+    }
+
+    let startNode = prevNode;
+    let headNode = currNode;
+    let nextNode = currNode.next;
+    index = (right-left);
+    if(!nextNode) return head;
+
+    while(index > 0) {
+        prevNode = currNode;
+        currNode = nextNode;
+        nextNode = currNode.next;
+        currNode.next = prevNode;
+        index-=1;
+    }
+
+    prevNode = currNode;
+    currNode=nextNode;
+    if(startNode) {
+        startNode.next = prevNode;
+    } else {
+        head = prevNode;
+    }
+    headNode.next=currNode;
+    
+    return head;
+};
